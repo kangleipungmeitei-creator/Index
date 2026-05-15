@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ELARA HAUTE — Luxury Redefined</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --gold: #c9a96e;
+      --gold-light: #e8cc9a;
+      --purple: #7c3aed;
+      --purple-glow: rgba(124, 58, 237, 0.35);
+      --gold-glow: rgba(201, 169, 110, 0.3);
+      --bg: #0a0a0a;
+      --surface: #111111;
+      --surface2: #161616;
+      --border: rgba(255,255,255,0.07);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: #e8e8e8;
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* Custom cursor */
+    #cursor {
+      width: 10px; height: 10px;
+      background: var(--gold);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.08s ease, background 0.2s;
+    }
+    #cursor-ring {
+      width: 36px; height: 36px;
+      border: 1px solid rgba(201,169,110,0.5);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: all 0.18s ease;
+    }
+    body:hover #cursor { transform: translate(-50%, -50%) scale(1); }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.2rem 2.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(10,10,10,0.55);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border-bottom: 1px solid var(--border);
+      transition: all 0.4s ease;
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.55rem;
+      font-weight: 300;
+      letter-spacing: 0.35em;
+      color: var(--gold-light);
+      text-transform: uppercase;
+    }
+    .nav-links { display: flex; gap: 2.5rem; }
+    .nav-links a {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      border: 1px solid rgba(201,169,110,0.4);
+      color: var(--gold);
+      padding: 0.5rem 1.4rem;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .nav-cta:hover {
+      background: var(--gold);
+      color: #000;
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      padding: 6rem 2rem 4rem;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 40%, rgba(124,58,237,0.12) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 40% at 80% 80%, rgba(201,169,110,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 50% at 20% 20%, rgba(201,169,110,0.05) 0%, transparent 60%);
+    }
+    .hero-grain {
+      position: absolute; inset: 0; opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 200px;
+    }
+    .hero-eyebrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.8rem;
+      opacity: 0;
+      animation: fadeUp 1s 0.3s forwards ease;
+    }
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.8rem, 10vw, 9rem);
+      font-weight: 300;
+      line-height: 0.88;
+      letter-spacing: -0.01em;
+      color: #fff;
+      opacity: 0;
+      animation: fadeUp 1s 0.55s forwards ease;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255,255,255,0.4);
+    }
+    .hero-sub {
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.38);
+      margin-top: 2rem;
+      max-width: 28rem;
+      line-height: 2;
+      opacity: 0;
+      animation: fadeUp 1s 0.8s forwards ease;
+    }
+    .hero-btns {
+      display: flex; gap: 1.2rem; margin-top: 3rem;
+      opacity: 0; animation: fadeUp 1s 1s forwards ease;
+      flex-wrap: wrap; justify-content: center;
+    }
+    .btn-primary {
+      background: var(--gold);
+      color: #000;
+      padding: 0.85rem 2.4rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      border: none; cursor: none;
+      font-family: 'Jost', sans-serif;
+      font-weight: 400;
+      transition: all 0.3s;
+    }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+    .btn-ghost {
+      background: transparent;
+      color: rgba(255,255,255,0.6);
+      padding: 0.85rem 2.4rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      border: 1px solid var(--border);
+      cursor: none;
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.2); color: #fff; }
+
+    .scroll-indicator {
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      opacity: 0; animation: fadeUp 1s 1.4s forwards ease;
+    }
+    .scroll-indicator span {
+      font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+    }
+    .scroll-line {
+      width: 1px; height: 50px;
+      background: linear-gradient(to bottom, rgba(201,169,110,0.6), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { transform: scaleY(1); opacity: 1; }
+      50% { transform: scaleY(0.6); opacity: 0.4; }
+    }
+
+    /* MARQUEE */
+    .marquee-section {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 0;
+      overflow: hidden;
+      background: var(--surface);
+    }
+    .marquee-track {
+      display: flex; gap: 0; width: max-content;
+      animation: marquee 25s linear infinite;
+    }
+    .marquee-item {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.2);
+      white-space: nowrap;
+      padding: 0 2.5rem;
+    }
+    .marquee-item span { color: var(--gold); margin: 0 0.5rem; }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* SECTIONS */
+    section { padding: 6rem 2rem; max-width: 1300px; margin: 0 auto; }
+    .section-header { text-align: center; margin-bottom: 4rem; }
+    .section-eyebrow {
+      font-size: 0.65rem; letter-spacing: 0.45em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-weight: 300; color: #fff; line-height: 1.05;
+    }
+    .section-title em { font-style: italic; color: rgba(255,255,255,0.45); }
+
+    /* CATEGORIES BENTO */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: auto;
+      gap: 1rem;
+    }
+    .bento-card {
+      position: relative; overflow: hidden;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      cursor: none;
+      transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.5s;
+    }
+    .bento-card:hover { transform: scale(1.025); box-shadow: 0 0 40px rgba(124,58,237,0.15); }
+    .bento-card:hover .bento-img { transform: scale(1.08); }
+    .bento-card:hover .card-overlay { opacity: 1; }
+    .bento-img {
+      width: 100%; height: 100%; object-fit: cover;
+      display: block; transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+      filter: brightness(0.82) saturate(0.8);
+    }
+    .card-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.1) 50%, transparent 100%);
+      opacity: 0.7; transition: opacity 0.4s;
+    }
+    .card-label {
+      position: absolute; bottom: 1.5rem; left: 1.5rem; right: 1.5rem;
+    }
+    .card-label-eyebrow {
+      font-size: 0.6rem; letter-spacing: 0.3em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem;
+    }
+    .card-label-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 300; color: #fff;
+    }
+
+    .bento-1 { grid-column: span 7; height: 420px; }
+    .bento-2 { grid-column: span 5; height: 420px; }
+    .bento-3 { grid-column: span 4; height: 320px; }
+    .bento-4 { grid-column: span 4; height: 320px; }
+    .bento-5 { grid-column: span 4; height: 320px; }
+
+    /* PRODUCT GRID */
+    .products-section { max-width: 1300px; margin: 0 auto; padding: 4rem 2rem 6rem; }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .product-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.5s;
+      cursor: none;
+    }
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 30px var(--purple-glow);
+    }
+    .product-card:hover .product-img { transform: scale(1.06); }
+    .product-img-wrap { position: relative; overflow: hidden; height: 360px; }
+    .product-img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+      filter: brightness(0.88) saturate(0.85);
+    }
+    .product-badge {
+      position: absolute; top: 1rem; left: 1rem;
+      background: var(--gold); color: #000;
+      font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+      padding: 0.25rem 0.7rem; font-weight: 500;
+    }
+    .product-id-badge {
+      position: absolute; top: 1rem; right: 1rem;
+      background: rgba(0,0,0,0.7);
+      color: rgba(255,255,255,0.4);
+      font-size: 0.58rem; letter-spacing: 0.12em;
+      padding: 0.25rem 0.6rem;
+      border: 1px solid var(--border);
+    }
+    .product-info { padding: 1.4rem 1.5rem 1.5rem; }
+    .product-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem; font-weight: 300; color: #fff; margin-bottom: 0.3rem;
+    }
+    .product-desc {
+      font-size: 0.72rem; color: rgba(255,255,255,0.35);
+      letter-spacing: 0.05em; margin-bottom: 1rem; line-height: 1.7;
+    }
+    .product-footer { display: flex; align-items: center; justify-content: space-between; }
+    .product-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 300; color: var(--gold-light);
+    }
+    .product-price sub { font-size: 0.75rem; color: rgba(201,169,110,0.6); }
+    .buy-btn {
+      font-size: 0.65rem; letter-spacing: 0.2em;
+      text-transform: uppercase;
+      background: transparent;
+      border: 1px solid rgba(201,169,110,0.4);
+      color: var(--gold);
+      padding: 0.55rem 1.2rem;
+      cursor: none;
+      font-family: 'Jost', sans-serif;
+      font-weight: 400;
+      transition: all 0.3s;
+    }
+    .buy-btn:hover { background: var(--gold); color: #000; }
+
+    /* MODAL */
+    #modal-overlay {
+      position: fixed; inset: 0; z-index: 500;
+      background: rgba(0,0,0,0.82);
+      backdrop-filter: blur(8px);
+      display: none; align-items: center; justify-content: center;
+      padding: 1rem;
+    }
+    #modal-overlay.open { display: flex; }
+    .modal-box {
+      background: #0e0e0e;
+      border: 1px solid rgba(201,169,110,0.2);
+      max-width: 480px; width: 100%;
+      max-height: 90vh; overflow-y: auto;
+      position: relative;
+      box-shadow: 0 0 80px rgba(124,58,237,0.2), 0 0 40px rgba(201,169,110,0.08);
+      animation: modalIn 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(20px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .modal-header {
+      padding: 2rem 2rem 1.2rem;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+    .modal-eyebrow {
+      font-size: 0.6rem; letter-spacing: 0.35em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem;
+    }
+    .modal-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem; font-weight: 300; color: #fff;
+    }
+    .modal-product-info {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 0.8rem;
+    }
+    .modal-product-name { font-size: 0.8rem; color: rgba(255,255,255,0.55); letter-spacing: 0.05em; }
+    .modal-product-price { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--gold-light); }
+    .modal-close {
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      background: none; border: none;
+      color: rgba(255,255,255,0.3); font-size: 1.3rem;
+      cursor: none; transition: color 0.2s;
+    }
+    .modal-close:hover { color: var(--gold); }
+    .modal-body { padding: 1.8rem 2rem 2rem; }
+    .form-group { margin-bottom: 1.3rem; }
+    .form-label {
+      display: block; font-size: 0.62rem; letter-spacing: 0.25em;
+      text-transform: uppercase; color: rgba(255,255,255,0.35);
+      margin-bottom: 0.55rem;
+    }
+    .form-input {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: #e8e8e8;
+      padding: 0.85rem 1rem;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 300;
+      outline: none;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .form-input:focus {
+      border-color: rgba(201,169,110,0.5);
+      box-shadow: 0 0 0 3px rgba(201,169,110,0.06);
+    }
+    .form-input::placeholder { color: rgba(255,255,255,0.18); }
+    select.form-input option { background: #0e0e0e; }
+    .size-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; }
+    .size-btn {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: rgba(255,255,255,0.45);
+      padding: 0.7rem;
+      font-size: 0.72rem; letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-family: 'Jost', sans-serif;
+      cursor: none; transition: all 0.2s;
+      text-align: center;
+    }
+    .size-btn:hover { border-color: rgba(201,169,110,0.4); color: var(--gold); }
+    .size-btn.selected { background: var(--gold); border-color: var(--gold); color: #000; font-weight: 500; }
+    .confirm-btn {
+      width: 100%; margin-top: 1.5rem;
+      background: var(--gold);
+      color: #000;
+      padding: 1rem;
+      font-size: 0.72rem; letter-spacing: 0.25em;
+      text-transform: uppercase;
+      border: none; cursor: none;
+      font-family: 'Jost', sans-serif; font-weight: 500;
+      display: flex; align-items: center; justify-content: center; gap: 0.7rem;
+      transition: all 0.3s;
+    }
+    .confirm-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+    .whatsapp-icon { width: 18px; height: 18px; }
+    .form-note {
+      font-size: 0.62rem; color: rgba(255,255,255,0.2);
+      letter-spacing: 0.05em; margin-top: 0.8rem;
+      text-align: center; line-height: 1.8;
+    }
+
+    /* ABOUT STRIP */
+    .about-strip {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 5rem 2rem;
+    }
+    .about-inner {
+      max-width: 1300px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center;
+    }
+    .about-text-eyebrow {
+      font-size: 0.62rem; letter-spacing: 0.4em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 1.2rem;
+    }
+    .about-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 300;
+      color: #fff; line-height: 1.1; margin-bottom: 1.5rem;
+    }
+    .about-desc {
+      font-size: 0.8rem; color: rgba(255,255,255,0.38);
+      line-height: 2.2; letter-spacing: 0.03em;
+    }
+    .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .stat-item { border-left: 1px solid rgba(201,169,110,0.25); padding-left: 1.5rem; }
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem; font-weight: 300; color: var(--gold-light); line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.65rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: rgba(255,255,255,0.3); margin-top: 0.5rem;
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 3rem 2rem;
+      max-width: 1300px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid var(--border); flex-wrap: wrap; gap: 1.5rem;
+    }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem; letter-spacing: 0.35em;
+      text-transform: uppercase; color: rgba(255,255,255,0.3);
+    }
+    .footer-links { display: flex; gap: 2rem; }
+    .footer-links a {
+      font-size: 0.65rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: rgba(255,255,255,0.2);
+      text-decoration: none; transition: color 0.3s;
+    }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-copy {
+      font-size: 0.62rem; color: rgba(255,255,255,0.15); letter-spacing: 0.05em;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1), transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* TOAST */
+    #toast {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 9000;
+      background: #0e0e0e; border: 1px solid rgba(201,169,110,0.3);
+      padding: 0.9rem 1.5rem;
+      display: flex; align-items: center; gap: 0.7rem;
+      opacity: 0; transform: translateY(10px);
+      transition: all 0.4s; pointer-events: none;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    }
+    #toast.show { opacity: 1; transform: translateY(0); }
+    #toast-text { font-size: 0.75rem; color: rgba(255,255,255,0.7); letter-spacing: 0.05em; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .bento-1 { grid-column: span 12; height: 280px; }
+      .bento-2 { grid-column: span 12; height: 220px; }
+      .bento-3, .bento-4, .bento-5 { grid-column: span 12; height: 200px; }
+      .about-inner { grid-template-columns: 1fr; gap: 3rem; }
+      footer { flex-direction: column; text-align: center; }
+    }
+    @media (max-width: 600px) {
+      nav { padding: 1rem 1.2rem; }
+      .nav-logo { font-size: 1.1rem; letter-spacing: 0.2em; }
+      .hero-title { font-size: clamp(3rem, 14vw, 4.5rem); }
+      section { padding: 4rem 1.2rem; }
+      .modal-header { padding: 1.5rem; }
+      .modal-body { padding: 1.5rem; }
+      #cursor, #cursor-ring { display: none; }
+      body { cursor: auto; }
+      .buy-btn, .confirm-btn, .btn-primary, .btn-ghost { cursor: pointer; }
+      .size-btn, .modal-close, .buy-btn { cursor: pointer; }
+    }
+
+    /* Gold glow line decorators */
+    .gold-line {
+      display: inline-block; width: 40px; height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      vertical-align: middle; margin: 0 1rem;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- Toast -->
+<div id="toast">
+  <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  <span id="toast-text">Redirecting to WhatsApp...</span>
+</div>
+
+<!-- ===== NAV ===== -->
+<nav id="nav">
+  <div class="nav-logo">Elara Haute</div>
+  <div class="nav-links">
+    <a href="#collections">Collections</a>
+    <a href="#products">Shop</a>
+    <a href="#about">Atelier</a>
+  </div>
+  <a href="#products" class="nav-cta">Shop Now</a>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero" style="max-width:100%;padding:0;">
+  <div class="hero-bg"></div>
+  <div class="hero-grain"></div>
+  <div style="position:relative;z-index:1;text-align:center;padding:6rem 2rem 4rem;">
+    <p class="hero-eyebrow"><span class="gold-line"></span>New Collection 2025<span class="gold-line"></span></p>
+    <h1 class="hero-title">Wear the<br><em>Silence</em><br>of Luxury</h1>
+    <p class="hero-sub">Where refined craftsmanship meets the quiet confidence of those who need no introduction.</p>
+    <div class="hero-btns">
+      <a href="#products" class="btn-primary">Explore Collection</a>
+      <a href="#about" class="btn-ghost">Our Atelier</a>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ===== MARQUEE ===== -->
+<div class="marquee-section">
+  <div class="marquee-track" id="marquee">
+    <span class="marquee-item">Exclusive Design <span>✦</span></span>
+    <span class="marquee-item">Handcrafted Luxury <span>✦</span></span>
+    <span class="marquee-item">Premium Fabrics <span>✦</span></span>
+    <span class="marquee-item">Free Shipping India <span>✦</span></span>
+    <span class="marquee-item">COD Available <span>✦</span></span>
+    <span class="marquee-item">Elara Haute 2025 <span>✦</span></span>
+    <span class="marquee-item">Exclusive Design <span>✦</span></span>
+    <span class="marquee-item">Handcrafted Luxury <span>✦</span></span>
+    <span class="marquee-item">Premium Fabrics <span>✦</span></span>
+    <span class="marquee-item">Free Shipping India <span>✦</span></span>
+    <span class="marquee-item">COD Available <span>✦</span></span>
+    <span class="marquee-item">Elara Haute 2025 <span>✦</span></span>
+  </div>
+</div>
+
+<!-- ===== COLLECTIONS BENTO ===== -->
+<section id="collections">
+  <div class="section-header reveal">
+    <p class="section-eyebrow">Curated Categories</p>
+    <h2 class="section-title">The <em>Collections</em></h2>
+  </div>
+  <div class="bento-grid reveal">
+    <div class="bento-card bento-1">
+      <img class="bento-img" src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=900&q=80&auto=format&fit=crop" alt="Evening Gowns" />
+      <div class="card-overlay"></div>
+      <div class="card-label">
+        <p class="card-label-eyebrow">Signature Line</p>
+        <p class="card-label-title">Evening Gowns</p>
+      </div>
+    </div>
+    <div class="bento-card bento-2">
+      <img class="bento-img" src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=700&q=80&auto=format&fit=crop" alt="Resort Wear" />
+      <div class="card-overlay"></div>
+      <div class="card-label">
+        <p class="card-label-eyebrow">Summer Edit</p>
+        <p class="card-label-title">Resort Wear</p>
+      </div>
+    </div>
+    <div class="bento-card bento-3">
+      <img class="bento-img" src="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=600&q=80&auto=format&fit=crop" alt="Power Suiting" />
+      <div class="card-overlay"></div>
+      <div class="card-label">
+        <p class="card-label-eyebrow">Corporate</p>
+        <p class="card-label-title">Power Suiting</p>
+      </div>
+    </div>
+    <div class="bento-card bento-4">
+      <img class="bento-img" src="https://images.unsplash.com/photo-1539008835657-9e8e9680c956?w=600&q=80&auto=format&fit=crop" alt="Casual Luxe" />
+      <div class="card-overlay"></div>
+      <div class="card-label">
+        <p class="card-label-eyebrow">Everyday</p>
+        <p class="card-label-title">Casual Luxe</p>
+      </div>
+    </div>
+    <div class="bento-card bento-5">
+      <img class="bento-img" src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=600&q=80&auto=format&fit=crop" alt="Accessories" />
+      <div class="card-overlay"></div>
+      <div class="card-label">
+        <p class="card-label-eyebrow">Finishing Touch</p>
+        <p class="card-label-title">Accessories</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRODUCTS ===== -->
+<div class="products-section" id="products">
+  <div class="section-header reveal">
+    <p class="section-eyebrow">Shop the Edit</p>
+    <h2 class="section-title">Featured <em>Pieces</em></h2>
+  </div>
+  <div class="product-grid" id="product-grid"></div>
+</div>
+
+<!-- ===== ABOUT ===== -->
+<div class="about-strip" id="about">
+  <div class="about-inner">
+    <div class="reveal">
+      <p class="about-text-eyebrow">Our Story</p>
+      <h2 class="about-title">Crafted with intention.<br>Worn with purpose.</h2>
+      <p class="about-desc">Elara Haute was born from a singular obsession — clothing that feels like armour and moves like water. Every seam, every stitch, every silhouette is a quiet declaration. We don't follow trends. We define the silence between them.</p>
+    </div>
+    <div class="about-stats reveal">
+      <div class="stat-item">
+        <div class="stat-num">500+</div>
+        <div class="stat-label">Happy Customers</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">48</div>
+        <div class="stat-label">Unique Designs</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Premium Fabric</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">4.9★</div>
+        <div class="stat-label">Average Rating</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-logo">Elara Haute</div>
+  <div class="footer-links">
+    <a href="#collections">Collections</a>
+    <a href="#products">Shop</a>
+    <a href="#about">About</a>
+  </div>
+  <p class="footer-copy">© 2025 Elara Haute. All rights reserved.</p>
+</footer>
+
+<!-- ===== ORDER MODAL ===== -->
+<div id="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <p class="modal-eyebrow">Secure Order</p>
+      <h3 class="modal-title">Complete Your Order</h3>
+      <div class="modal-product-info">
+        <span class="modal-product-name" id="modal-product-name">—</span>
+        <span class="modal-product-price" id="modal-product-price">—</span>
+      </div>
+      <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Full Name</label>
+        <input class="form-input" type="text" id="f-name" placeholder="Your full name" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Phone Number</label>
+        <input class="form-input" type="tel" id="f-phone" placeholder="+91 XXXXX XXXXX" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Select Size</label>
+        <div class="size-grid">
+          <button class="size-btn" data-size="S">S</button>
+          <button class="size-btn" data-size="M">M</button>
+          <button class="size-btn" data-size="L">L</button>
+          <button class="size-btn" data-size="XL">XL</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Full Shipping Address</label>
+        <textarea class="form-input" id="f-address" rows="3" placeholder="House/Flat No., Street, City, State, PIN Code" style="resize:vertical;"></textarea>
+      </div>
+      <button class="confirm-btn" id="confirm-btn">
+        <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="#000"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Confirm Order via WhatsApp
+      </button>
+      <p class="form-note">You'll be redirected to WhatsApp to complete the order. We'll confirm availability & payment within 24 hours.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== PRODUCTS DATA =====
+const products = [
+  {
+    id: "EH-001",
+    name: "Noir Velvet Gown",
+    desc: "Floor-length silhouette in Italian velvet. Bias-cut for a fluid drape.",
+    price: 4299,
+    badge: "Bestseller",
+    image: "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=600&q=80&auto=format&fit=crop"
+  },
+  {
+    id: "EH-002",
+    name: "Ivory Ruffle Midi",
+    desc: "Structured bodice with cascading organza ruffles. Ceremony-ready.",
+    price: 3499,
+    badge: "New",
+    image: "https://images.unsplash.com/photo-1496217590455-aa63a8350eea?w=600&q=80&auto=format&fit=crop"
+  },
+  {
+    id: "EH-003",
+    name: "Obsidian Power Blazer",
+    desc: "Double-breasted, peak lapels in a woven wool blend. Commands any room.",
+    price: 5199,
+    badge: "Limited",
+    image: "https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?w=600&q=80&auto=format&fit=crop"
+  },
+  {
+    id: "EH-004",
+    name: "Champagne Wrap Dress",
+    desc: "Silk-satin wrap with a self-tie belt. Effortless day-to-evening transition.",
+    price: 2899,
+    badge: "Popular",
+    image: "https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=600&q=80&auto=format&fit=crop"
+  },
+  {
+    id: "EH-005",
+    name: "Slate Tailored Trouser",
+    desc: "High-rise wide-leg in a stretch-crepe. Sharp lines, supreme comfort.",
+    price: 2199,
+    badge: null,
+    image: "https://images.unsplash.com/photo-1551803091-e20673f15770?w=600&q=80&auto=format&fit=crop"
+  },
+  {
+    id: "EH-006",
+    name: "Crimson Statement Blouse",
+    desc: "Dramatic puff sleeves, deep plunge neckline. Pure silk georgette.",
+    price: 1899,
+    badge: "New",
+    image: "https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?w=600&q=80&auto=format&fit=crop"
+  },
+  {
+    id: "EH-007",
+    name: "Onyx Co-ord Set",
+    desc: "Matching bralette and wide-leg palazzo in matte jersey. Resort-chic.",
+    price: 3799,
+    badge: "Limited",
+    image: "https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=600&q=80&auto=format&fit=crop"
+  },
+  {
+    id: "EH-008",
+    name: "Dusk Draped Saree",
+    desc: "Pre-draped georgette saree with an embellished blouse. Heritage meets haute.",
+    price: 6499,
+    badge: "Signature",
+    image: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&q=80&auto=format&fit=crop"
+  }
+];
+
+// ===== RENDER PRODUCTS =====
+const grid = document.getElementById('product-grid');
+products.forEach(p => {
+  const card = document.createElement('div');
+  card.className = 'product-card reveal';
+  card.innerHTML = `
+    <div class="product-img-wrap">
+      <img class="product-img" src="${p.image}" alt="${p.name}" loading="lazy" />
+      ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ''}
+      <span class="product-id-badge">${p.id}</span>
+    </div>
+    <div class="product-info">
+      <h3 class="product-name">${p.name}</h3>
+      <p class="product-desc">${p.desc}</p>
+      <div class="product-footer">
+        <div class="product-price"><sub>₹</sub>${p.price.toLocaleString('en-IN')}</div>
+        <button class="buy-btn" data-id="${p.id}">Buy Now</button>
+      </div>
+    </div>
+  `;
+  grid.appendChild(card);
+});
+
+// ===== MODAL STATE =====
+let selectedProduct = null;
+let selectedSize = null;
+
+const overlay = document.getElementById('modal-overlay');
+const modalName = document.getElementById('modal-product-name');
+const modalPrice = document.getElementById('modal-product-price');
+const modalClose = document.getElementById('modal-close');
+const confirmBtn = document.getElementById('confirm-btn');
+const sizeBtns = document.querySelectorAll('.size-btn');
+
+function openModal(productId) {
+  selectedProduct = products.find(p => p.id === productId);
+  selectedSize = null;
+  sizeBtns.forEach(b => b.classList.remove('selected'));
+  document.getElementById('f-name').value = '';
+  document.getElementById('f-phone').value = '';
+  document.getElementById('f-address').value = '';
+  modalName.textContent = `${selectedProduct.name} · ${selectedProduct.id}`;
+  modalPrice.textContent = `₹${selectedProduct.price.toLocaleString('en-IN')}`;
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Size selection
+sizeBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    sizeBtns.forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selectedSize = btn.dataset.size;
+  });
+});
+
+// Buy Now click (delegated)
+document.addEventListener('click', e => {
+  const btn = e.target.closest('.buy-btn');
+  if (btn) openModal(btn.dataset.id);
+});
+
+modalClose.addEventListener('click', closeModal);
+overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// Confirm Order
+confirmBtn.addEventListener('click', () => {
+  const name = document.getElementById('f-name').value.trim();
+  const phone = document.getElementById('f-phone').value.trim();
+  const address = document.getElementById('f-address').value.trim();
+
+  if (!name || !phone || !address || !selectedSize) {
+    const missing = [];
+    if (!name) missing.push('Name');
+    if (!phone) missing.push('Phone');
+    if (!selectedSize) missing.push('Size');
+    if (!address) missing.push('Address');
+    showToast(`Please fill in: ${missing.join(', ')}`, true);
+    return;
+  }
+
+  const message =
+    `NEW ORDER RECEIVED\n\n` +
+    `Item: ${selectedProduct.name}\n` +
+    `ID: ${selectedProduct.id}\n` +
+    `Size: ${selectedSize}\n\n` +
+    `CUSTOMER INFO:\n` +
+    `Name: ${name}\n` +
+    `Address: ${address}\n` +
+    `Phone: ${phone}\n\n` +
+    `Please confirm availability and payment details!`;
+
+  const encoded = encodeURIComponent(message);
+  const waURL = `https://wa.me/917628019483?text=${encoded}`;
+
+  showToast('Redirecting to WhatsApp...', false);
+  closeModal();
+  setTimeout(() => { window.open(waURL, '_blank'); }, 500);
+});
+
+// ===== TOAST =====
+function showToast(msg, isError = false) {
+  const toast = document.getElementById('toast');
+  const toastText = document.getElementById('toast-text');
+  toastText.textContent = msg;
+  toast.style.borderColor = isError ? 'rgba(239,68,68,0.4)' : 'rgba(201,169,110,0.3)';
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+// ===== CURSOR =====
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+  setTimeout(() => {
+    ring.style.left = e.clientX + 'px';
+    ring.style.top = e.clientY + 'px';
+  }, 60);
+});
+document.querySelectorAll('a, button, .bento-card, .product-card').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.transform = 'translate(-50%,-50%) scale(2)';
+    ring.style.transform = 'translate(-50%,-50%) scale(1.5)';
+    ring.style.borderColor = 'rgba(201,169,110,0.8)';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.transform = 'translate(-50%,-50%) scale(1)';
+    ring.style.transform = 'translate(-50%,-50%) scale(1)';
+    ring.style.borderColor = 'rgba(201,169,110,0.5)';
+  });
+});
+
+// ===== SCROLL REVEAL =====
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// ===== NAV SCROLL EFFECT =====
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('nav');
+  if (window.scrollY > 60) {
+    nav.style.background = 'rgba(10,10,10,0.92)';
+  } else {
+    nav.style.background = 'rgba(10,10,10,0.55)';
+  }
+});
+</script>
+</body>
+</html>
